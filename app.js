@@ -8,9 +8,25 @@ const app = express()
 
 const PORT = process.env.PORT || 9092
 
+//Middleware
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
-app.post("/product", async (req, res) => {
+//Get all requests
+
+app.get("/products", async (req, res) => {
+    try {
+        const products = await myProduct.find({})
+        res.status(200).json(products)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error.message })
+    }
+})
+
+
+//Post request
+app.post("/products", async (req, res) => {
     // console.log(req.body)
     // res.send(req.body)
 
