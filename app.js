@@ -54,6 +54,23 @@ app.post("/products", async (req, res) => {
 
 })
 
+//Udate product
+
+app.put("/products/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        const product = await myProduct.findByIdAndUpdate(id, req.body)
+        if (!product) {
+            return res.status(404).json({ message: `No product has id: ${id}` })
+        }
+        const updatedProduct = await myProduct.findById(id)
+        res.status(200).json(updatedProduct)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error.message })
+    }
+})
+
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
