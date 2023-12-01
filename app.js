@@ -24,6 +24,19 @@ app.get("/products", async (req, res) => {
     }
 })
 
+// Get specific product
+app.get("/products/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        const product = await myProduct.findById(id, req.body)
+        res.status(200).json(product)
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error.message })
+    }
+})
+
 
 //Post request
 app.post("/products", async (req, res) => {
